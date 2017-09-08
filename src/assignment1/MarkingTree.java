@@ -32,7 +32,7 @@ public class MarkingTree {
 		print("Steps to complete: " + simulateAlice2(height, r));
 		print("Steps to complete: " + simulateAlice3(height, r)); */
 		
-		print("Time taken: " + ((System.currentTimeMillis() - start_time)/1000.0) + "s.");
+		print("Time taken: " + ((System.currentTimeMillis() - start_time)/1000) + "s.");
 	}
 	
 	private static int simulateAlice1(int height, Random r){
