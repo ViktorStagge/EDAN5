@@ -95,14 +95,34 @@ def R(graph, type="R2"):
     return val
 
 
-path = "g90.in"
-file = open(path, "r")
-n = int(file.readline())
-graph = {}
-for i, line in enumerate(file):
-    edges = {j: int(e) for j, e in enumerate(line.split()) if e != "0"}
-    graph[i] = edges
+def create_graph(path):
+    file = open(path, "r")
+    n = int(file.readline())
+    graph = {}
+    for i, line in enumerate(file):
+        edges = {j: int(e) for j, e in enumerate(line.split()) if e != "0"}
+        graph[i] = edges
+    global iterations
+    iterations = 0
+    return graph
 
-print(graph)
+
 iterations = 0
-print('R = {}, iterations={}'.format(R(graph, type="R2"), iterations))
+
+R0_files = ["g4.in", "g30.in", "g40.in", "g50.in", "g60.in"]
+R1_files = R0_files.copy()
+R1_files.extend(["g70.in", "g80.in", "g90.in", "g100.in"])
+R2_files = R1_files.copy()
+R2_files.extend(["g110.in", "g120.in"])
+
+R0 = [(R(create_graph(path), type="R0"), iterations) for path in R0_files]
+R1 = [(R(create_graph(path), type="R1"), iterations) for path in R1_files]
+R2 = [(R(create_graph(path), type="R2"), iterations) for path in R2_files]
+
+file = open("output.txt", "w")
+for p, res in zip(R0_files, R0):
+    file.write("{} {} {}\n".format(p, res[0], res[1]))
+for p, res in zip(R1_files, R1):
+    file.write("{} {} {}\n".format(p, res[0], res[1]))
+for p, res in zip(R2_files, R2):
+    file.write("{} {} {}\n".format(p, res[0], res[1]))
